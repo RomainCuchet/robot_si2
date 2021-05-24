@@ -1,0 +1,24 @@
+{
+    "name": "Robot_si2",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "radio": "*",
+        "pxt-kitronik-klip-motor": "github:kitronikltd/pxt-kitronik-klip-motor#v1.0.0",
+        "microphone": "*",
+        "pxt-kitronik-clip-detector": "github:kitronikltd/pxt-kitronik-clip-detector#v1.0.0"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "main.py"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}
