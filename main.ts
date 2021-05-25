@@ -6,9 +6,10 @@ input.onButtonPressed(Button.B, function () {
 })
 function obstacle_detection () {
     if (Kitronik_Clip_Detector.sensorDigitalDetection(Kitronik_Clip_Detector.PinSelection.P1, Kitronik_Clip_Detector.LightSelection.Objct)) {
-        is_obstacle = 1
-    } else if (!(Kitronik_Clip_Detector.sensorDigitalDetection(Kitronik_Clip_Detector.PinSelection.P1, Kitronik_Clip_Detector.LightSelection.Objct))) {
+        // je ne comprends pas pourquoi la détection est inversée surement un problème de câblage
         is_obstacle = 0
+    } else {
+        is_obstacle = 1
     }
 }
 let is_obstacle = 0

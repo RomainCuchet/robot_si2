@@ -12,15 +12,16 @@ def obstacle_detection():
     global is_obstacle
     if Kitronik_Clip_Detector.sensor_digital_detection(Kitronik_Clip_Detector.PinSelection.P1,
     Kitronik_Clip_Detector.LightSelection.OBJCT):
-        is_obstacle = 1
-    elif not (Kitronik_Clip_Detector.sensor_digital_detection(Kitronik_Clip_Detector.PinSelection.P1,
-    Kitronik_Clip_Detector.LightSelection.OBJCT)):
+        # je ne comprends pas pourquoi la détection est inversée
         is_obstacle = 0
+    else:
+        is_obstacle = 1
 is_obstacle = 0
 is_active = 0
 serial.redirect_to_usb()
 Kitronik_Clip_Detector.set_sensor_to_detect_objects()
 is_active = 0
+is_obstacle = 0
 basic.show_leds("""
     . # # # .
     . # . # .
