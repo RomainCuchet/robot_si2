@@ -3,6 +3,14 @@ def on_button_pressed_a():
     is_active = 1
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
+def line_follower():
+    if True:
+        pass
+    elif False:
+        pass
+    elif False:
+        pass
+
 def on_button_pressed_b():
     global is_active
     is_active = 0
@@ -20,6 +28,8 @@ is_obstacle = 0
 is_active = 0
 serial.redirect_to_usb()
 Kitronik_Clip_Detector.set_sensor_to_detect_objects()
+speed_left = 80
+speed_right = 80
 is_active = 0
 is_obstacle = 0
 basic.show_leds("""
@@ -37,10 +47,10 @@ def on_forever():
     if is_active == 1 and is_obstacle == 0:
         kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR1,
             kitronik_klip_motor.MotorDirection.FORWARD,
-            100)
+            speed_left)
         kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR2,
             kitronik_klip_motor.MotorDirection.FORWARD,
-            100)
+            speed_right)
     else:
         kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR1)
         kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR2)
