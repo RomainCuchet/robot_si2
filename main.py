@@ -35,33 +35,12 @@ def line_follower():
             speed_right)
 
 def on_received_string(receivedString):
-    if receivedString == "up":
-        pass
-    elif receivedString == "down":
-        pass
-    elif receivedString == "right":
-        pass
-    elif receivedString == "left":
-        pass
+    global command
+    command = receivedString
 radio.on_received_string(on_received_string)
-
-def on_button_pressed_b():
-    global is_line_active
-    led_manager()
-    if is_line_active == 0:
-        is_line_active = 1
-    else:
-        is_line_active = 0
-input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def led_manager():
     if is_active == 0:
-        for x in range(5):
-            led.plot(x, 0)
-    else:
-        for x2 in range(5):
-            led.unplot(x2, 0)
-    if is_line_active == 1:
         led.plot(1, 3)
         led.plot(2, 4)
         led.plot(3, 3)
@@ -89,37 +68,46 @@ def obstacle_detection():
         is_obstacle = 0
     else:
         is_obstacle = 1
+command = ""
 is_obstacle = 0
 is_active = 0
 speed_right = 0
 speed_left = 0
-is_line_active = 0
 led.set_brightness(100)
 serial.redirect_to_usb()
 radio.set_group(1)
 Kitronik_Clip_Detector.set_sensor_to_detect_objects()
-is_line_active = 0
 speed_left = 80
 speed_right = 80
 is_active = 0
 is_obstacle = 0
 
 def on_forever():
+    is_line_active = 0
     obstacle_detection()
     serial.write_value("is active", is_active)
     serial.write_value("is_obstacle", is_obstacle)
     serial.write_value("is_line_active", is_line_active)
-    if is_line_active == 1:
-        line_follower()
-    elif is_active == 1 and is_obstacle == 0:
-        kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR1,
-            kitronik_klip_motor.MotorDirection.FORWARD,
-            speed_left)
-        kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR2,
-            kitronik_klip_motor.MotorDirection.FORWARD,
-            speed_right)
-    else:
-        led_manager()
-        kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR1)
-        kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR2)
+    if command == "up":
+        if is_active == 1 and is_obstacle == 0:
+            kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR1,
+                kitronik_klip_motor.MotorDirection.FORWARD,
+                speed_left)
+            kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR2,
+                kitronik_klip_motor.MotorDirection.FORWARD,
+                speed_right)
+        else:
+            kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR1)
+            kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR2)
+    elif command == "down":
+        if is_active == 1:
+            kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR1,
+                kitronik_klip_motor.MotorDirection.REVERSE,
+                speed_left)
+            kitronik_klip_motor.motor_on(kitronik_klip_motor.Motors.MOTOR2,
+                kitronik_klip_motor.MotorDirection.REVERSE,
+                speed_right)
+        else:
+            kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR1)
+            kitronik_klip_motor.motor_off(kitronik_klip_motor.Motors.MOTOR2)
 basic.forever(on_forever)
